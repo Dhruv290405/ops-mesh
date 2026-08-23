@@ -1,0 +1,56 @@
+version: '3.8'
+
+services:
+  api:
+    build:
+      context: ./infrastructure/docker
+      dockerfile: Dockerfile.api
+    ports:
+      - "4000:4000"
+    environment:
+      - NODE_ENV=production
+      - PORT=4000
+      - API_URL=http://localhost:4000
+      - WEB_URL=http://localhost:3000
+      - CORS_ORIGINS=http://localhost:3000
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/postgres
+      - DATABASE_SSL=false
+      - JWT_SECRET=change-me
+      - JWT_EXPIRES_IN=8h
+      - REDIS_URL=redis://redis:6379
+      - RABBITMQ_URL=amqp://rabbitmq:5672
+      - RABBITMQ_EVENTS_QUEUE=opsmesh.events
+      - RABBITMQ_RETRY_QUEUE=opsmesh.events.retry
+      - RABBITMQ_DLQ=opsmesh.events.dlq
+    depends_on:
+      - redis
+      - rabbitmq
+
+  worker:
+    build:
+      context: ./infrastructure/docker
+      dockerfile: Dockerfile.worker
+    environment:
+      - NODE_ENV=production
+      - REDIS_URL=redis://redis:6379
+      - RABBITMQ_URL=amqp://rabbitmq:5672
+      - RABBITMQ_EVENTS_QUEUE=opsmesh.events
+      - RABBITMQ_RETRY_QUEUE=opsmesh.events.retry
+      - RABBITMQ_DLQ=opsmesh.events.dlq
+      - ESCALATION_CHECK_INTERVAL_MS=15000
+      - HEALTH_CHECK_INTERVAL_MS=30000
+    depends_on:
+      - api
+      - redis
+      - rabbitmq
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"

@@ -1,0 +1,15 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "target": "ES2022",
+    "types": ["node"],
+    "baseUrl": ".",
+    "paths": {
+      "@opsmesh/shared": ["../../packages/shared/src/index.ts"],
+      "@opsmesh/config": ["../../packages/config/src/index.ts"],
+      "@opsmesh/infra": ["../../packages/infra/src/index.ts"]
+    }
+  },
+  "include": ["src/**/*.ts"]
+}

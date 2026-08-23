@@ -1,0 +1,41 @@
+# Dependencies
+node_modules/
+dist/
+build/
+coverage/
+
+# Next.js build output
+.next/
+
+# Environment - NEVER commit real credentials
+.env
+.env.*
+!.env.example
+
+# Logs
+*.log
+logs/
+
+# Test artifacts
+playwright-report/
+test-results/
+load-results/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Supabase CLI local
+supabase/.temp/
+
+# Screenshots/demo assets (keep if you want them committed)
+# docs/screenshots/
+
+# Misc
+.cache/
+*.tsbuildinfo

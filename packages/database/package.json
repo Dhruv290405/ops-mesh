@@ -1,0 +1,23 @@
+{
+  "name": "@opsmesh/database",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "db:migrate": "node src/runner.mjs up",
+    "db:seed": "node src/runner.mjs seed",
+    "db:reset": "node src/runner.mjs reset",
+    "db:status": "node src/runner.mjs status",
+    "test": "vitest run --passWithNoTests"
+  },
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "pg": "^8.11.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "@types/pg": "^8.10.0",
+    "typescript": "^5.3.0",
+    "vitest": "^1.0.0"
+  }
+}
